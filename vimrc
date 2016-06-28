@@ -173,8 +173,8 @@ autocmd  FileType  php setlocal omnifunc=phpcomplete_extended#CompletePHP
 let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
 
 Bundle 'nrocco/vim-phplint'
-"" 写入php文件时，自动进行语法检查
-autocmd! BufWritePost *.php :Phplint
+"" 写入php文件时，自动进行语法检查 升级为用syntastic来做语法检查
+" autocmd! BufWritePost *.php :Phplint
 " autocmd! BufWritePost *.php :!php -l %
 
 "" 写入php文件时，自动进行代码格式化
@@ -254,13 +254,11 @@ let g:vim_markdown_new_list_item_indent = 0
 
 "" 各类语言语法检查插件
 Plugin 'scrooloose/syntastic'
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
+let g:syntastic_check_on_open=1
+let g:syntastic_html_tidy_ignore_errors=[" proprietary attribute \"ng-"]
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
 let g:syntastic_check_on_wq = 1
 "" 语法检查配置结束
 
