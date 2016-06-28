@@ -280,6 +280,7 @@ set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 "" 语法检查配置结束
 
+Plugin 'airblade/vim-gitgutter' "" 显示当前git控制的文件的修改情况
 
 filetype plugin indent on     " required!
 "下面是 vundle的一些命令代会会用到
