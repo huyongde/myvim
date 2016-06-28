@@ -252,6 +252,22 @@ let g:vim_markdown_folding_disabled = 1
 let g:vim_markdown_frontmatter=1 ""set for yaml
 let g:vim_markdown_new_list_item_indent = 0
 
+"start 前端开发
+"
+" html 快速编码
+Plugin 'mattn/emmet-vim'
+
+"css 语法高亮
+Plugin 'hail2u/vim-css3-syntax' 
+
+" js语法高亮
+Plugin 'pangloss/vim-javascript'
+" 高亮js中的html和css
+let javascript_enable_domhtmlcss = 1
+
+" end 前端开发
+
+
 "" 各类语言语法检查插件
 Plugin 'scrooloose/syntastic'
 let g:syntastic_check_on_open=1
