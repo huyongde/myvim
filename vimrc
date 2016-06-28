@@ -252,6 +252,19 @@ let g:vim_markdown_folding_disabled = 1
 let g:vim_markdown_frontmatter=1 ""set for yaml
 let g:vim_markdown_new_list_item_indent = 0
 
+"" 各类语言语法检查插件
+Plugin 'scrooloose/syntastic'
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 1
+"" 语法检查配置结束
+
+
 filetype plugin indent on     " required!
 "下面是 vundle的一些命令代会会用到
  "
