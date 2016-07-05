@@ -291,3 +291,11 @@ let Tlist_Auto_Open = 0  "自动打开taglist
 let Tlist_Process_File_Always=1 "实时更新tags
 
 """""tag list 设置完
+
+
+"" 通过字典设置 php内置 函数的补全Ctrl+p进行补全
+au FileType php call AddPHPFuncList()
+function AddPHPFuncList()                                                                                                                                                   
+    set dictionary-=~/.vim/dict/php_funclist.txt dictionary+=~/.vim/dict/php_funclist.txt
+    set complete-=k complete+=k
+endfunction
