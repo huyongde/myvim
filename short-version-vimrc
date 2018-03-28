@@ -3,7 +3,7 @@ set runtimepath=/usr/share/vim/vim72/
 syntax on
 filetype plugin on
 "search
-set hlsearch "" highlight search
+set hlsearch "" highlight search 
 set incsearch "" 增量搜索
 set ignorecase "" 不区分大小写
 
@@ -17,44 +17,54 @@ set autoindent
 set smartindent
 "set cindent
 set nonu
+
 set mouse=
 set showmatch
+
 set cursorline ""设置当前行的下划线
+
 "autocmd! BufWritePost *.php :!/usr/local/php/bin/php -l %
+
 set scrolloff=20
 set encoding=utf-8
 "set langmenu=zh_CN.UTF-8
 "language message zh_CN.UTF-8
+
 set fenc=utf-8
 "set fileencodings=utf-8,gb18030,utf-16,big5
 set fileencodings=utf-8,cp936,gb18030,big5,euc-jp,euc-kr,latin1
 set termencoding=utf-8
 
+
+
 hi User3 guifg=white
 hi User1 guifg=gray
 hi User2 guifg=red
-
-"" 设置vim打开文件之后，页脚的状态栏，包括文件编码，文件类型，光标当前列，当前行，以及总行数等信息
 set statusline=%2*%n%m%r%h%w%*\ %f\ %1*[FORMAT=%2*%{&ff}:%{&fenc!=''?&fenc:&enc}%1*]\ [Type=%2*%Y%1*]\ [Column=%2*%v%1*]\ [Line=%2*%l%1*/%3*%L(%p%%)%1*]
 
 "需要使用以下命令，自定义高亮显示颜色。
+
 set laststatus=2
 "set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [ASCII=\%03.3b]\[HEX=\%02.2B]\ [POS=%04l,%04v][%p%%]\ [LEN=%L]
 "set statusline=%f%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\[POS=%l,%v][%p%%]\ [LEN=%L]
 "
 "colorscheme wombat256mod
 
+
+
+
 set nocompatible               " be iMproved
 filetype off                   " required!
 
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#rc()
-
+Plugin 'VundleVim/Vundle.vim'
 "" 语法检查插件
 Plugin 'scrooloose/syntastic'
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
+
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
@@ -63,6 +73,8 @@ let g:syntastic_check_on_wq = 1
 Plugin 'scrooloose/nerdtree'
 let g:NERDTreeDirArrowExpandable = '▸'
 let g:NERDTreeDirArrowCollapsible = '▾'
+
+Plugin 'mhinz/vim-signify'
 
 Plugin 'taglist.vim'
 """""tag list 设置
@@ -76,10 +88,10 @@ let Tlist_Auto_Open = 0  "自动打开taglist
 let Tlist_Process_File_Always=1 "实时更新tags
 "
 """"""tag list 设置完
-filetype plugin on
 
-"" 通过vim dict功能实现php内建函数的补全ctrl+p或者ctrl+n
+filetype plugin on
 "au FileType php setlocal dict+=~/.vim/dict/php_funclist.txt
+
 au FileType php call AddPHPFuncList()
 function AddPHPFuncList()
     set dictionary-=~/.vim/dict/php_funclist.txt dictionary+=~/.vim/dict/php_funclist.txt
@@ -88,17 +100,30 @@ endfunction
 
 set completeopt=longest,menu " 只在下拉菜单中显示匹配项目，并且会自动插入所有匹配项目的相同文本
 set autoread                " 当文件在外部被修改，自动更新该文件
+
 au InsertChange * :insert <C-p>
 
 "" php doc 插件配置
-inoremap <C-K> <ESC>:call PhpDocSingle()<CR>i
-nnoremap <C-K> :call PhpDocSingle()<CR>
-vnoremap <C-K> :call PhpDocRange()<CR>
+inoremap <C-K> <ESC>:call PhpDocSingle()<CR>i 
+nnoremap <C-K> :call PhpDocSingle()<CR> 
+vnoremap <C-K> :call PhpDocRange()<CR> 
 """
-" vim中插入当前时间的配置
+
 nmap ,dt a<C-R>=strftime('%Y-%m-%d %H:%M:%S')<CR>
 imap ,dt <C-R>=strftime('%Y-%m-%d %H:%M:%S')<CR>
-"" 重新打开编辑过的文件，光标定位到上次所编辑的位置
-au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
 
-```
+"" vim重新打开文件时定位光标到上次离开文件时，光标所在的位置
+au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif 
+
+
+"" tab标签的切换快捷键设定和相关配置, tabedit 可以打开文件
+nmap <F9> :tabprevious<CR>
+nmap <F10> :tabnext <CR>
+imap <F9> <ESC>:tabprevious<CR>
+imap <F10> <ESC>:tabnext <CR>
+set tabpagemax=18
+"" showtabline 三个值0：不显示 1：创建标签时才显示 2：总是显示标签
+set showtabline=2 
+
+"" 设置代码默认不折叠
+set foldlevelstart=99  
