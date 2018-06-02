@@ -1,129 +1,198 @@
-let $VIMRUNTIME="/usr/share/vim/vim72"
-set runtimepath=/usr/share/vim/vim72/
-syntax on
-filetype plugin on
-"search
-set hlsearch "" highlight search 
-set incsearch "" 增量搜索
-set ignorecase "" 不区分大小写
+set nocompatible                    "不兼容vi, 以便使用vim更强大的功能, 默认兼容
+                                    "必需是第一个设定的选项, 和set compatible相反
+set nonumber                          "显示行号
+set statusline=%2*%n%m%r%h%w%*\ %f\ %1*[FORMAT=%2*%{&ff}:%{&fenc!=''?&fenc:&enc}%1*]\ [Type=%2*%Y%1*]\ [Column=%2*%v%1*]\ [Line=%2*%l%1*/%3*%L(%p%%)%1*]
+
+"" vim重新打开文件时定位光标到上次离开文件时，光标所在的位置
+"au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif "" 这种方式会导致每次ctrl + o会跳转到当前文件第一行
+if has("autocmd")
+    autocmd BufReadPost *
+    \ if line("'\"") > 0 && line ("'\"") <= line("$") |
+    \ exe "normal g'\"" |
+    \ endif
+endif
 
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
 set expandtab
 set smarttab
+                                    "以上3个键配合使用
+set encoding=utf-8             "使用utf-8打开文件
+set fileencodings=utf-8             "使用utf-8打开文件
+set modeline                        "可以针对每个文件进行文件级别的设置, 这些设置覆盖.vimrc
+set cursorline                      "高亮显示光标所在行
 
-set autoindent
-set smartindent
-"set cindent
-set nonu
+set incsearch                       " 设置增量搜索
+set ignorecase "" 不区分大小写
+set hlsearch                        "高亮度搜索, 默认也是开启的
 
-set mouse=
-set showmatch
-
-set cursorline ""设置当前行的下划线
-
-"autocmd! BufWritePost *.php :!/usr/local/php/bin/php -l %
+set showmatch                       "高亮显示匹配的括号
+set foldmethod=marker               "代码折叠
+set completeopt-=preview            "自动补全, 按ctrl+p显示候选项, 再ctrl+p进行选择
+set backspace=indent,eol,start      "允许退格键的3个功能正常运行
+set laststatus=2                    "总是显示状态行
+set autoread                        "文件在Vim之外修改过，自动重新读入
+"set scrolloff=999                  "光标总是在屏幕的中间
+syntax on                           "显示语法高亮
+filetype on                         "打开文件类型检测功能
+"filetype plugin on                  "打开文件类型检测功能
+filetype indent on                  "允许VIM为不同类型的文件定义不同的缩进
+                                    "以上三个合一: filetype plugin indent on
+colorscheme molokai2              "配色方案
 
 set scrolloff=20
-set encoding=utf-8
-"set langmenu=zh_CN.UTF-8
-"language message zh_CN.UTF-8
+let mapleader = ","
+map <F2> :NERDTreeToggle<CR>
+map <F3> :TagbarToggle<CR>
+map <F8> :mksession!<CR>
+map <C-h> :tabp<CR>
+map <C-l> :tabn<CR>
 
-set fenc=utf-8
-"set fileencodings=utf-8,gb18030,utf-16,big5
-set fileencodings=utf-8,cp936,gb18030,big5,euc-jp,euc-kr,latin1
-set termencoding=utf-8
+"启用pathogen进行目录管理
+"execute pathogen#infect()  
 
+"let g:neocomplete#enable_at_startup = 1 "启用neocomplete
 
+"golang config
+let g:airline#extensions#tabline#enabled = 1
+let g:go_fmt_command = "goimports"
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_structs = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_build_constraints = 1
+let g:nerdtree_tabs_autoclose = 0
+let g:EclimCompletionMethod = 'omnifunc'
 
-hi User3 guifg=white
-hi User1 guifg=gray
-hi User2 guifg=red
-set statusline=%2*%n%m%r%h%w%*\ %f\ %1*[FORMAT=%2*%{&ff}:%{&fenc!=''?&fenc:&enc}%1*]\ [Type=%2*%Y%1*]\ [Column=%2*%v%1*]\ [Line=%2*%l%1*/%3*%L(%p%%)%1*]
-
-"需要使用以下命令，自定义高亮显示颜色。
-
-set laststatus=2
-"set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [ASCII=\%03.3b]\[HEX=\%02.2B]\ [POS=%04l,%04v][%p%%]\ [LEN=%L]
-"set statusline=%f%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\[POS=%l,%v][%p%%]\ [LEN=%L]
-"
-"colorscheme wombat256mod
-
-
-
-
-set nocompatible               " be iMproved
-filetype off                   " required!
-
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#rc()
-Plugin 'VundleVim/Vundle.vim'
-"" 语法检查插件
-Plugin 'scrooloose/syntastic'
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 1
-"" 语法检查配置结束
-Plugin 'scrooloose/nerdtree'
-let g:NERDTreeDirArrowExpandable = '▸'
-let g:NERDTreeDirArrowCollapsible = '▾'
-
-Plugin 'mhinz/vim-signify'
-
-Plugin 'taglist.vim'
-"""""tag list 设置
-let Tlist_Ctags_Cmd = '/usr/bin/ctags'
-let Tlist_Show_One_File = 1            "不同时显示多个文件的tag，只显示当前文件的
-let Tlist_Exit_OnlyWindow = 1          "如果taglist窗口是最后一个窗口，则退出vim
-let Tlist_Use_Right_Window = 1         "在右侧窗口中显示taglist窗口
-"let Tlist_Use_Left_Windo =1                "在左侧窗口中显示taglist窗口
-let Tlist_WinWidt =28                   "设置taglist的宽度
-let Tlist_Auto_Open = 0  "自动打开taglist
-let Tlist_Process_File_Always=1 "实时更新tags
-"
-""""""tag list 设置完
-
-filetype plugin on
-"au FileType php setlocal dict+=~/.vim/dict/php_funclist.txt
-
-au FileType php call AddPHPFuncList()
-function AddPHPFuncList()
-    set dictionary-=~/.vim/dict/php_funclist.txt dictionary+=~/.vim/dict/php_funclist.txt
-    set complete-=k complete+=k
-endfunction
-
-set completeopt=longest,menu " 只在下拉菜单中显示匹配项目，并且会自动插入所有匹配项目的相同文本
-set autoread                " 当文件在外部被修改，自动更新该文件
-
-au InsertChange * :insert <C-p>
-
-"" php doc 插件配置
-inoremap <C-K> <ESC>:call PhpDocSingle()<CR>i 
-nnoremap <C-K> :call PhpDocSingle()<CR> 
-vnoremap <C-K> :call PhpDocRange()<CR> 
-"""
+au FileType go nmap <leader>r <Plug>(go-run)
+au FileType go nmap <leader>b <Plug>(go-build)
+au FileType go nmap <leader>t <Plug>(go-test)
+au FileType go nmap <leader>c <Plug>(go-coverage)
+"au FileType go nmap <Leader>gd <Plug>(go-doc)
+au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
+au FileType go nmap <Leader>ds <Plug>(go-def-split)
+au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
+au FileType go nmap <Leader>dt <Plug>(go-def-tab)
+au FileType go nmap <Leader>s <Plug>(go-implements)
+au FileType go nmap <Leader>e <Plug>(go-rename)
 
 nmap ,dt a<C-R>=strftime('%Y-%m-%d %H:%M:%S')<CR>
 imap ,dt <C-R>=strftime('%Y-%m-%d %H:%M:%S')<CR>
 
-"" vim重新打开文件时定位光标到上次离开文件时，光标所在的位置
-au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif 
+set nocompatible               " be iMproved
+filetype off                   " required!
+
+set rtp+=~/.vim/bundle/vundle
+call vundle#rc()
+Bundle 'gmarik/vundle'
+Bundle 'scrooloose/nerdtree'
+" 语法检查插件
+"Plugin 'scrooloose/syntastic'
+Plugin 'vim-syntastic/syntastic'
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_auto_loc_list = 0 " 解决E926: Current location list was changed
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 0
+let g:syntastic_check_on_wq = 1
+let g:syntastic_enable_highlighting=1
+let g:syntastic_c_checker=0
+" 设置错误符号
+let g:syntastic_error_symbol='E'
+" " 设置警告符号
+let g:syntastic_warning_symbol='W'
+" location list always updated  
+let g:syntastic_always_populate_loc_list = 1  
+" collect errors when use multple checkers  
+let g:syntastic_aggregate_errors = 1  
 
 
-"" tab标签的切换快捷键设定和相关配置, tabedit 可以打开文件
-nmap <F9> :tabprevious<CR>
-nmap <F10> :tabnext <CR>
-imap <F9> <ESC>:tabprevious<CR>
-imap <F10> <ESC>:tabnext <CR>
-set tabpagemax=18
-"" showtabline 三个值0：不显示 1：创建标签时才显示 2：总是显示标签
-set showtabline=2 
+"let g:ycm_server_keep_logfiles = 1
+"let g:ycm_server_log_level = 'debug'
+Plugin 'Valloric/YouCompleteMe'
 
+Plugin 'airblade/vim-gitgutter'
+set updatetime=100
+" golang start
+Plugin 'nsf/gocode', {'rtp': 'vim/'} " 代码补全, 配合YouCompleteMe来实现golang代码补全
+
+
+Plugin 'dgryski/vim-godef'
+Plugin 'fatih/vim-go'
+Bundle 'majutsushi/tagbar'
+let g:tagbar_autofocus = 1
+let g:tagbar_type_php  = {
+     \ 'ctagstype' : 'php',
+     \ 'kinds'     : [
+         \ 'i:interfaces',
+         \ 'c:classes',
+         \ 'd:constant definitions:1',
+         \ 'f:functions:1',
+         \ 'j:javascript functions:1'
+     \ ]
+   \ }
+let g:tagbar_type_go = {
+    \ 'ctagstype' : 'go',
+    \ 'kinds'     : [
+        \ 'p:package',
+        \ 'i:imports:1',
+        \ 'c:constants',
+        \ 'v:variables:1',
+        \ 't:types:1',
+        \ 'n:interfaces',
+        \ 'w:fields',
+        \ 'e:embedded',
+        \ 'm:methods:1',
+        \ 'r:constructor',
+        \ 'f:functions'
+    \ ],
+    \ 'sro' : '.',
+    \ 'kind2scope' : {
+        \ 't' : 'ctype',
+        \ 'n' : 'ntype'
+    \ },
+    \ 'scope2kind' : {
+        \ 'ctype' : 't',
+        \ 'ntype' : 'n'
+    \ },
+    \ 'ctagsbin'  : 'gotags',
+    \ 'ctagsargs' : '-sort -silent'
+\ }
+
+"""set for godef
+let g:godef_split=0 "打开新窗口的时候左右split
+let g:godef_same_file_in_same_window=1 "函数在同一个文件中时不需要打开新窗口
+
+" YCM
+let g:ycm_min_num_of_chars_for_completion = 1
+let g:ycm_key_list_select_completion = ['<C-n>', '<Tab>']
+let g:ycm_key_list_previous_completion = ['<C-p>', '<s-Tab>']
+let g:SuperTabDefaultCompletionType = '<C-n>'
+
+let g:ycm_semantic_triggers =  {
+  \   'c' : ['->', '.'],
+  \   'go' : ['.'],
+  \   'objc' : ['->', '.'],
+  \   'cpp,objcpp' : ['->', '.', '::'],
+  \   'perl' : ['->'],
+  \   'php' : ['->', '::'],
+  \   'cs,java,javascript,d,vim,ruby,python,perl6,scala,vb,elixir,go' : ['.'],
+  \   'lua' : ['.', ':'],
+  \   'erlang' : [':'],
+  \ }
+    
+
+" golang end
+
+filetype plugin on
+"autocmd! BufWritePost *.php :!/usr/local/qqwebsrv/php/bin/php -l % 
+"autocmd BufWritePre *.go :!gofmt -w %
+"
 "" 设置代码默认不折叠
-set foldlevelstart=99  
+set foldlevelstart=99
+
