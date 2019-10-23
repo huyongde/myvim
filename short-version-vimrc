@@ -39,7 +39,6 @@ filetype on                         "打开文件类型检测功能
 "filetype plugin on                  "打开文件类型检测功能
 filetype indent on                  "允许VIM为不同类型的文件定义不同的缩进
                                     "以上三个合一: filetype plugin indent on
-colorscheme molokai2              "配色方案
 
 set scrolloff=20
 let mapleader = ","
@@ -83,8 +82,8 @@ imap ,dt <C-R>=strftime('%Y-%m-%d %H:%M:%S')<CR>
 set nocompatible               " be iMproved
 filetype off                   " required!
 
-set rtp+=~/.vim/bundle/vundle
-call vundle#rc()
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
 Bundle 'gmarik/vundle'
 Bundle 'scrooloose/nerdtree'
 " 语法检查插件
@@ -189,10 +188,14 @@ let g:ycm_semantic_triggers =  {
 
 " golang end
 
-filetype plugin on
+call vundle#end()            " required
+filetype plugin indent on    " required
 "autocmd! BufWritePost *.php :!/usr/local/qqwebsrv/php/bin/php -l % 
 "autocmd BufWritePre *.go :!gofmt -w %
 "
 "" 设置代码默认不折叠
 set foldlevelstart=99
+
+
+"let g:go_version_warning = 0
 
