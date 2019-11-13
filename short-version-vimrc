@@ -124,17 +124,10 @@ Plugin 'nsf/gocode', {'rtp': 'vim/'} " 代码补全, 配合YouCompleteMe来实�
 Plugin 'dgryski/vim-godef'
 Plugin 'fatih/vim-go'
 Bundle 'majutsushi/tagbar'
+" 生成phpctags文件的命令: ctags --languages=php --php-kinds=cidfvj -R .
+au FileType php nmap gd <C-]>
+
 let g:tagbar_autofocus = 1
-let g:tagbar_type_php  = {
-     \ 'ctagstype' : 'php',
-     \ 'kinds'     : [
-         \ 'i:interfaces',
-         \ 'c:classes',
-         \ 'd:constant definitions:1',
-         \ 'f:functions:1',
-         \ 'j:javascript functions:1'
-     \ ]
-   \ }
 let g:tagbar_type_go = {
     \ 'ctagstype' : 'go',
     \ 'kinds'     : [
